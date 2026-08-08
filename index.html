@@ -1,0 +1,4189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+
+  <title>FOCUS | 新規参加者アンケート</title>
+
+  <meta
+    name="description"
+    content="FOCUSへ参加された方へのアンケートです。"
+  />
+
+  <meta name="theme-color" content="#111111" />
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --card:#ffffff;
+      --text:#0d0d0f;
+      --muted:#77777f;
+      --line:rgba(15,15,18,.10);
+
+      --accent:#6f63dc;
+      --accent-deep:#4f49a8;
+      --accent-soft:rgba(111,99,220,.08);
+
+      --dark:#09090c;
+      --dark-2:#19191f;
+
+      --danger:#dc2626;
+
+      --shadow:
+        0 18px 42px rgba(18,18,24,.07);
+
+      --shadow-soft:
+        0 10px 30px rgba(18,18,24,.045);
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    html,
+    body{
+      margin:0;
+      padding:0;
+      width:100%;
+      max-width:100%;
+      overflow-x:hidden;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Helvetica Neue",
+        "Hiragino Kaku Gothic ProN",
+        "Hiragino Sans",
+        "Yu Gothic",
+        YuGothic,
+        Meiryo,
+        sans-serif;
+
+      color:var(--text);
+
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(111,99,220,.045),
+          transparent 28%
+        ),
+        #ffffff;
+
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+    }
+
+    body{
+      min-height:100vh;
+    }
+
+    .page{
+      min-height:100dvh;
+      display:grid;
+      grid-template-rows:auto 1fr auto;
+    }
+
+    /* ==================================================
+       HEADER
+    ================================================== */
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:10;
+
+      -webkit-backdrop-filter:blur(18px);
+      backdrop-filter:blur(18px);
+
+      background:rgba(255,255,255,.91);
+
+      border-bottom:
+        1px solid rgba(15,15,18,.075);
+    }
+
+    .header-inner{
+      width:100%;
+      max-width:920px;
+
+      margin:0 auto;
+      padding:14px 18px;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:12px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:11px;
+      min-width:0;
+    }
+
+    .brand-mark{
+      position:relative;
+
+      width:42px;
+      height:42px;
+      flex:0 0 42px;
+
+      display:grid;
+      place-items:center;
+
+      overflow:hidden;
+
+      color:#fff;
+
+      background:
+        radial-gradient(
+          circle at 20% 0%,
+          rgba(139,128,237,.30),
+          transparent 46%
+        ),
+        linear-gradient(
+          145deg,
+          #08080a,
+          #1a1a22
+        );
+
+      border:
+        1px solid rgba(255,255,255,.08);
+
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.08em;
+
+      box-shadow:
+        0 10px 24px rgba(0,0,0,.14),
+        0 0 18px rgba(111,99,220,.10);
+    }
+
+    .brand-mark:after{
+      content:"";
+
+      position:absolute;
+      inset:5px;
+
+      border:
+        1px solid rgba(255,255,255,.10);
+
+      pointer-events:none;
+    }
+
+    .brand-name{
+      color:#111116;
+
+      line-height:1.35;
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:.01em;
+    }
+
+    .brand-license{
+      display:block;
+
+      margin-top:3px;
+
+      color:rgba(0,0,0,.38);
+
+      font-size:9px;
+      font-weight:800;
+      letter-spacing:.08em;
+    }
+
+    .pill-note{
+      position:relative;
+
+      flex:0 0 auto;
+
+      padding:7px 12px 7px 22px;
+
+      color:#4d478e;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(111,99,220,.055),
+          rgba(111,99,220,.11)
+        );
+
+      border:
+        1px solid rgba(111,99,220,.18);
+
+      white-space:nowrap;
+
+      font-size:10px;
+      font-weight:800;
+      letter-spacing:.04em;
+    }
+
+    .pill-note:before{
+      content:"";
+
+      position:absolute;
+      top:50%;
+      left:10px;
+
+      width:5px;
+      height:5px;
+
+      border-radius:50%;
+
+      background:#786ee1;
+
+      box-shadow:
+        0 0 10px rgba(120,110,225,.55);
+
+      transform:translateY(-50%);
+    }
+
+    /* ==================================================
+       CONTAINER
+    ================================================== */
+
+    .container{
+      width:100%;
+      max-width:920px;
+
+      margin:0 auto 28px;
+
+      padding:
+        42px
+        4vw
+        0;
+    }
+
+    @media (min-width:920px){
+      .container{
+        padding-left:18px;
+        padding-right:18px;
+      }
+    }
+
+    /* ==================================================
+       HERO
+    ================================================== */
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+
+      padding:
+        38px
+        30px
+        34px;
+
+      background:
+        radial-gradient(
+          circle at 100% 0%,
+          rgba(111,99,220,.10),
+          transparent 36%
+        ),
+        linear-gradient(
+          145deg,
+          #ffffff 0%,
+          #ffffff 68%,
+          #f8f8fb 100%
+        );
+
+      border:
+        1px solid rgba(15,15,18,.10);
+
+      box-shadow:
+        0 18px 42px rgba(18,18,24,.06);
+    }
+
+    .hero::before{
+      content:"";
+
+      position:absolute;
+
+      top:0;
+      left:0;
+
+      width:100%;
+      height:3px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #1b1b1f 0%,
+          #434a9d 35%,
+          #7770d3 60%,
+          rgba(119,112,211,0) 100%
+        );
+    }
+
+    .hero::after{
+      content:"";
+
+      position:absolute;
+
+      width:250px;
+      height:250px;
+
+      right:-108px;
+      top:-118px;
+
+      border-radius:50%;
+
+      border:
+        1px solid rgba(111,99,220,.08);
+
+      box-shadow:
+        0 0 0 32px rgba(111,99,220,.025),
+        0 0 0 64px rgba(111,99,220,.015);
+
+      pointer-events:none;
+    }
+
+    .hero-head{
+      position:relative;
+      z-index:1;
+
+      display:flex;
+      flex-direction:column;
+      gap:7px;
+    }
+
+    .hero .meta{
+      position:relative;
+
+      display:inline-flex;
+      align-items:center;
+
+      width:fit-content;
+      max-width:100%;
+
+      padding:
+        7px
+        13px
+        7px
+        25px;
+
+      color:#4e478e;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(111,99,220,.06),
+          rgba(111,99,220,.12)
+        );
+
+      border:
+        1px solid rgba(111,99,220,.17);
+
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.06em;
+    }
+
+    .hero .meta:before{
+      content:"";
+
+      position:absolute;
+
+      left:11px;
+      top:50%;
+
+      width:5px;
+      height:5px;
+
+      border-radius:50%;
+
+      background:#7b70df;
+
+      box-shadow:
+        0 0 10px rgba(123,112,223,.5);
+
+      transform:translateY(-50%);
+    }
+
+    .hero h1{
+      max-width:680px;
+
+      margin:
+        13px
+        0
+        11px;
+
+      font-family:
+        "Yu Mincho",
+        "Hiragino Mincho ProN",
+        serif;
+
+      font-size:
+        clamp(30px,4.4vw,46px);
+
+      font-weight:700;
+
+      line-height:1.28;
+      letter-spacing:-.045em;
+
+      white-space:pre-line;
+    }
+
+    .hero p{
+      position:relative;
+
+      max-width:680px;
+
+      margin:0;
+
+      padding-top:16px;
+
+      color:rgba(13,13,15,.52);
+
+      font-size:13px;
+      font-weight:500;
+      line-height:1.9;
+
+      white-space:pre-line;
+    }
+
+    .hero p:before{
+      content:"";
+
+      position:absolute;
+
+      top:0;
+      left:0;
+
+      width:86px;
+      height:1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #6f63dc,
+          rgba(111,99,220,0)
+        );
+    }
+
+    /* ==================================================
+       FORM
+    ================================================== */
+
+    form{
+      position:relative;
+
+      margin-top:24px;
+      padding:0;
+
+      overflow:hidden;
+
+      background:#ffffff;
+
+      border:
+        1px solid rgba(15,15,18,.10);
+
+      box-shadow:
+        0 22px 54px rgba(18,18,24,.065);
+    }
+
+    form:before{
+      content:"";
+
+      position:absolute;
+
+      top:0;
+      left:0;
+
+      width:100%;
+      height:1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(111,99,220,.80),
+          rgba(111,99,220,.15),
+          transparent
+        );
+    }
+
+    .section{
+      position:relative;
+
+      padding:
+        28px
+        26px
+        18px;
+
+      border-top:
+        1px solid rgba(15,15,18,.075);
+    }
+
+    .section:first-child{
+      border-top:none;
+    }
+
+    .section:before{
+      content:"";
+
+      position:absolute;
+
+      top:-1px;
+      left:26px;
+
+      width:42px;
+      height:1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #7369cd,
+          rgba(115,105,205,0)
+        );
+    }
+
+    .section:first-child:before{
+      display:none;
+    }
+
+    /* ==================================================
+       SECTION TITLES
+    ================================================== */
+
+    .section-title{
+      position:relative;
+
+      display:flex;
+      align-items:baseline;
+      gap:8px;
+      flex-wrap:wrap;
+
+      margin:
+        0
+        0
+        20px;
+
+      padding-bottom:13px;
+
+      color:#111116;
+
+      font-family:
+        "Yu Mincho",
+        "Hiragino Mincho ProN",
+        serif;
+
+      font-size:19px;
+      font-weight:700;
+
+      letter-spacing:-.025em;
+    }
+
+    .section-title:after{
+      content:"";
+
+      position:absolute;
+
+      bottom:0;
+      left:0;
+
+      width:100%;
+      height:1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(15,15,18,.25),
+          rgba(15,15,18,.055)
+        );
+    }
+
+    .section-title .req{
+      padding:4px 7px;
+
+      color:#ffffff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #dc2626,
+          #b91c1c
+        );
+
+      box-shadow:
+        0 4px 12px rgba(220,38,38,.16);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Helvetica Neue",
+        sans-serif;
+
+      font-size:8px;
+      font-weight:900;
+      letter-spacing:.10em;
+    }
+
+    .section-title .limit{
+      padding:3px 7px;
+
+      color:rgba(0,0,0,.42);
+
+      background:
+        rgba(15,15,18,.035);
+
+      border:
+        1px solid rgba(15,15,18,.075);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Helvetica Neue",
+        sans-serif;
+
+      font-size:8px;
+      font-weight:800;
+      letter-spacing:.06em;
+    }
+
+    .choice-note{
+      margin:
+        -9px
+        0
+        16px;
+
+      color:rgba(0,0,0,.43);
+
+      font-size:11.5px;
+      line-height:1.7;
+    }
+
+    /* ==================================================
+       FIELDS
+    ================================================== */
+
+    .field{
+      display:grid;
+      gap:8px;
+      min-width:0;
+      margin-bottom:18px;
+    }
+
+    .basic-pair{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    .basic-pair .field{
+      margin-bottom:0;
+    }
+
+    .inline-label{
+      display:block;
+
+      margin:0 0 5px;
+
+      color:#27272c;
+
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.015em;
+    }
+
+    .field-description{
+      margin:-2px 0 6px;
+
+      color:rgba(0,0,0,.42);
+
+      font-size:11px;
+      line-height:1.65;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea{
+      width:100%;
+      max-width:100%;
+
+      padding:13px 14px;
+
+      color:var(--text);
+
+      background:
+        linear-gradient(
+          145deg,
+          #ffffff,
+          #fdfdfe
+        );
+
+      border:
+        1px solid rgba(15,15,18,.12);
+
+      border-radius:2px;
+
+      outline:none;
+
+      font-family:inherit;
+      font-size:16px;
+
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.85);
+
+      transition:
+        border .22s ease,
+        box-shadow .22s ease,
+        background .22s ease;
+    }
+
+    textarea{
+      min-height:112px;
+      resize:vertical;
+      line-height:1.7;
+    }
+
+    .textarea-large{
+      min-height:145px;
+    }
+
+    input::placeholder,
+    textarea::placeholder{
+      color:rgba(0,0,0,.29);
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus{
+      border-color:
+        rgba(111,99,220,.58);
+
+      box-shadow:
+        0 0 0 3px rgba(111,99,220,.075),
+        0 9px 22px rgba(70,60,170,.045);
+
+      background:#ffffff;
+    }
+
+    /* ==================================================
+       CHECKS
+    ================================================== */
+
+    .checks{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px;
+    }
+
+    @media (min-width:720px){
+      .checks{
+        grid-template-columns:
+          repeat(3,minmax(0,1fr));
+      }
+    }
+
+    .check-item{
+      position:relative;
+
+      display:flex;
+      align-items:center;
+      gap:9px;
+
+      min-width:0;
+      min-height:52px;
+
+      padding:11px 12px;
+
+      overflow:hidden;
+
+      color:#25252a;
+
+      background:
+        linear-gradient(
+          145deg,
+          #ffffff,
+          #fafafd
+        );
+
+      border:
+        1px solid rgba(15,15,18,.10);
+
+      border-radius:2px;
+
+      line-height:1.45;
+      font-size:12px;
+      font-weight:650;
+
+      cursor:pointer;
+
+      box-shadow:
+        0 8px 20px rgba(18,18,24,.035);
+
+      transition:
+        border .2s ease,
+        background .2s ease,
+        transform .12s ease,
+        box-shadow .2s ease;
+    }
+
+    .check-item:after{
+      content:"";
+
+      position:absolute;
+
+      left:0;
+      bottom:0;
+
+      width:100%;
+      height:1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #7369cd,
+          rgba(115,105,205,0)
+        );
+
+      transform:scaleX(0);
+      transform-origin:left center;
+
+      transition:transform .3s ease;
+    }
+
+    .check-item:hover{
+      border-color:
+        rgba(111,99,220,.25);
+
+      background:#ffffff;
+
+      box-shadow:
+        0 10px 24px rgba(18,18,24,.055);
+    }
+
+    .check-item:hover:after{
+      transform:scaleX(1);
+    }
+
+    .check-item:active{
+      transform:translateY(1px);
+    }
+
+    input[type="checkbox"],
+    input[type="radio"]{
+      width:17px;
+      height:17px;
+
+      flex:0 0 17px;
+
+      accent-color:#6258c6;
+    }
+
+    .focus-area-copy{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+
+    .focus-area-title{
+      color:#25252a;
+      font-size:12px;
+      font-weight:800;
+      line-height:1.4;
+    }
+
+    .focus-area-sub{
+      color:rgba(0,0,0,.40);
+      font-size:9.5px;
+      font-weight:500;
+      line-height:1.45;
+    }
+
+    /* ==================================================
+       INFO CARDS
+    ================================================== */
+
+    .privacy-card{
+      position:relative;
+
+      margin-bottom:5px;
+
+      padding:
+        17px
+        18px
+        17px
+        21px;
+
+      overflow:hidden;
+
+      color:rgba(255,255,255,.67);
+
+      background:
+        radial-gradient(
+          circle at 100% 0%,
+          rgba(111,99,220,.18),
+          transparent 42%
+        ),
+        linear-gradient(
+          145deg,
+          #08080a,
+          #19191f
+        );
+
+      border:
+        1px solid rgba(255,255,255,.08);
+
+      font-size:11.5px;
+      line-height:1.8;
+
+      box-shadow:
+        0 15px 32px rgba(0,0,0,.10);
+    }
+
+    .privacy-card:before{
+      content:"";
+
+      position:absolute;
+
+      top:0;
+      left:0;
+
+      width:3px;
+      height:100%;
+
+      background:
+        linear-gradient(
+          180deg,
+          #8b80ed,
+          rgba(139,128,237,.20)
+        );
+    }
+
+    .important-card{
+      position:relative;
+
+      margin-bottom:18px;
+
+      padding:
+        15px
+        16px
+        15px
+        19px;
+
+      color:#44444b;
+
+      background:
+        radial-gradient(
+          circle at 100% 0%,
+          rgba(111,99,220,.09),
+          transparent 45%
+        ),
+        linear-gradient(
+          145deg,
+          #fafafd,
+          #f6f6fa
+        );
+
+      border:
+        1px solid rgba(111,99,220,.11);
+
+      border-left:
+        3px solid #6f63dc;
+
+      font-size:11.5px;
+      line-height:1.75;
+    }
+
+    /* ==================================================
+       RATING
+    ================================================== */
+
+    .rating-question{
+      padding:15px 0 18px;
+
+      border-bottom:
+        1px solid rgba(15,15,18,.065);
+    }
+
+    .rating-question:first-child{
+      padding-top:0;
+    }
+
+    .rating-question:last-child{
+      border-bottom:none;
+      padding-bottom:0;
+    }
+
+    .rating-grid{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:7px;
+
+      margin-top:10px;
+    }
+
+    .rating-item{
+      position:relative;
+    }
+
+    .rating-item input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .rating-item span{
+      position:relative;
+
+      display:grid;
+      place-items:center;
+
+      min-height:49px;
+
+      padding:8px 4px;
+
+      overflow:hidden;
+
+      color:#55555c;
+
+      background:
+        linear-gradient(
+          145deg,
+          #ffffff,
+          #fafafd
+        );
+
+      border:
+        1px solid rgba(15,15,18,.11);
+
+      border-radius:2px;
+
+      cursor:pointer;
+
+      font-size:13px;
+      font-weight:800;
+
+      transition:.2s ease;
+    }
+
+    .rating-item span:after{
+      content:"";
+
+      position:absolute;
+
+      bottom:0;
+      left:0;
+
+      width:100%;
+      height:2px;
+
+      background:#756bd2;
+
+      transform:scaleX(0);
+
+      transition:transform .2s ease;
+    }
+
+    .rating-item input:checked + span{
+      color:#ffffff;
+
+      background:
+        radial-gradient(
+          circle at 100% 0%,
+          rgba(139,128,237,.28),
+          transparent 48%
+        ),
+        linear-gradient(
+          145deg,
+          #0a0a0d,
+          #1d1d26
+        );
+
+      border-color:
+        rgba(111,99,220,.42);
+
+      box-shadow:
+        0 10px 22px rgba(18,18,24,.12),
+        0 0 18px rgba(111,99,220,.08);
+    }
+
+    .rating-item input:checked + span:after{
+      transform:scaleX(1);
+    }
+
+    .rating-scale{
+      display:flex;
+      justify-content:space-between;
+
+      margin-top:5px;
+
+      color:#888;
+
+      font-size:10px;
+    }
+
+    /* ==================================================
+       ERROR
+    ================================================== */
+
+    .error{
+      display:none;
+
+      margin-top:10px;
+      padding-left:10px;
+
+      color:var(--danger);
+
+      border-left:
+        2px solid var(--danger);
+
+      font-size:11px;
+      font-weight:700;
+      line-height:1.6;
+    }
+
+    /* ==================================================
+       ACTIONS
+    ================================================== */
+
+    .actions{
+      position:relative;
+
+      display:grid;
+      gap:11px;
+
+      padding:
+        25px
+        26px
+        29px;
+
+      background:
+        linear-gradient(
+          180deg,
+          #ffffff,
+          #fafafd
+        );
+
+      border-top:
+        1px solid rgba(15,15,18,.075);
+    }
+
+    .btn{
+      width:100%;
+
+      padding:16px;
+
+      border:none;
+      border-radius:0;
+
+      font-family:inherit;
+
+      font-size:14px;
+      font-weight:800;
+      letter-spacing:.03em;
+
+      cursor:pointer;
+
+      transition:
+        transform .12s ease,
+        opacity .2s ease,
+        box-shadow .2s ease;
+    }
+
+    .btn-primary{
+      position:relative;
+      overflow:hidden;
+
+      color:#ffffff;
+
+      background:
+        radial-gradient(
+          circle at 20% 0%,
+          rgba(139,128,237,.25),
+          transparent 40%
+        ),
+        linear-gradient(
+          135deg,
+          #09090c 0%,
+          #191922 55%,
+          #09090b 100%
+        );
+
+      border:
+        1px solid rgba(255,255,255,.08);
+
+      box-shadow:
+        0 16px 30px rgba(0,0,0,.16),
+        0 0 22px rgba(111,99,220,.08);
+    }
+
+    .btn-primary:before{
+      content:"";
+
+      position:absolute;
+
+      top:-70%;
+      left:-30%;
+
+      width:18%;
+      height:240%;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(255,255,255,.24),
+          transparent
+        );
+
+      transform:rotate(18deg);
+
+      animation:
+        surveyButtonShine
+        4.8s
+        ease-in-out
+        infinite;
+    }
+
+    @keyframes surveyButtonShine{
+
+      0%,
+      58%{
+        left:-30%;
+        opacity:0;
+      }
+
+      66%{
+        opacity:1;
+      }
+
+      84%,
+      100%{
+        left:120%;
+        opacity:0;
+      }
+
+    }
+
+    .btn-primary:disabled{
+      cursor:not-allowed;
+      opacity:.55;
+    }
+
+    .hint{
+      color:rgba(0,0,0,.42);
+
+      font-size:11px;
+      line-height:1.6;
+    }
+
+    /* ==================================================
+       THANK YOU
+    ================================================== */
+
+    .thankyou-stage{
+      min-height:62vh;
+
+      display:none;
+      justify-content:center;
+      align-items:flex-start;
+
+      padding-top:10px;
+    }
+
+    .thankyou{
+      position:relative;
+
+      width:100%;
+
+      margin-top:10px;
+
+      padding:
+        44px
+        24px
+        36px;
+
+      overflow:hidden;
+
+      text-align:center;
+
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(111,99,220,.09),
+          transparent 35%
+        ),
+        #ffffff;
+
+      border:
+        1px solid rgba(15,15,18,.10);
+
+      box-shadow:
+        0 22px 52px rgba(18,18,24,.07);
+    }
+
+    .thankyou:before{
+      content:"";
+
+      position:absolute;
+
+      top:0;
+      left:0;
+
+      width:100%;
+      height:3px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #1b1b1f,
+          #7770d3,
+          rgba(119,112,211,0)
+        );
+    }
+
+    .done-badge{
+      position:relative;
+
+      width:58px;
+      height:58px;
+
+      margin:
+        0
+        auto
+        15px;
+
+      display:grid;
+      place-items:center;
+
+      color:#ffffff;
+
+      background:
+        radial-gradient(
+          circle at 20% 0%,
+          rgba(139,128,237,.30),
+          transparent 45%
+        ),
+        linear-gradient(
+          145deg,
+          #08080a,
+          #1b1b24
+        );
+
+      border:
+        1px solid rgba(111,99,220,.28);
+
+      border-radius:50%;
+
+      box-shadow:
+        0 14px 28px rgba(0,0,0,.15),
+        0 0 22px rgba(111,99,220,.12);
+    }
+
+    .done-kicker{
+      margin-bottom:7px;
+
+      color:#665cc4;
+
+      font-size:9px;
+      font-weight:900;
+      letter-spacing:.14em;
+    }
+
+    .thankyou h2{
+      margin:
+        0
+        0
+        13px;
+
+      font-family:
+        "Yu Mincho",
+        "Hiragino Mincho ProN",
+        serif;
+
+      font-size:
+        clamp(25px,3.6vw,34px);
+
+      font-weight:700;
+      letter-spacing:-.035em;
+    }
+
+    .thankyou-secondary{
+      margin:0;
+
+      color:rgba(0,0,0,.48);
+
+      font-size:12px;
+      line-height:1.85;
+    }
+
+    footer{
+      padding:
+        10px
+        18px
+        26px;
+
+      color:var(--muted);
+
+      text-align:center;
+
+      font-size:10px;
+    }
+
+    /* ==================================================
+       MOBILE
+    ================================================== */
+
+    @media (max-width:560px){
+
+      .header-inner{
+        padding:11px 12px;
+        gap:8px;
+      }
+
+      .brand{
+        gap:8px;
+      }
+
+      .brand-mark{
+        width:38px;
+        height:38px;
+        flex-basis:38px;
+
+        font-size:9px;
+      }
+
+      .brand-name{
+        max-width:160px;
+        font-size:11px;
+      }
+
+      .brand-license{
+        font-size:8px;
+      }
+
+      .pill-note{
+        padding:
+          6px
+          8px
+          6px
+          18px;
+
+        font-size:8px;
+      }
+
+      .pill-note:before{
+        left:8px;
+
+        width:4px;
+        height:4px;
+      }
+
+      .container{
+        padding:
+          28px
+          10px
+          0;
+      }
+
+      .hero{
+        padding:
+          28px
+          18px
+          25px;
+      }
+
+      .hero .meta{
+        font-size:9px;
+      }
+
+      .hero h1{
+        margin-top:12px;
+
+        font-size:
+          clamp(27px,8vw,35px);
+
+        line-height:1.31;
+      }
+
+      .hero p{
+        font-size:12px;
+        line-height:1.85;
+      }
+
+      form{
+        margin-top:18px;
+      }
+
+      .section{
+        padding:
+          24px
+          15px
+          14px;
+      }
+
+      .section:before{
+        left:15px;
+      }
+
+      .section-title{
+        margin-bottom:18px;
+        font-size:18px;
+      }
+
+      .actions{
+        padding:
+          21px
+          15px
+          23px;
+      }
+
+      .checks{
+        grid-template-columns:
+          1fr 1fr;
+
+        gap:7px;
+      }
+
+      .check-item{
+        min-height:55px;
+
+        padding:10px 9px;
+
+        gap:7px;
+
+        font-size:11px;
+      }
+
+      input[type="checkbox"],
+      input[type="radio"]{
+        width:16px;
+        height:16px;
+
+        flex-basis:16px;
+      }
+
+      .basic-pair{
+        grid-template-columns:
+          1fr 1fr;
+
+        gap:12px;
+      }
+
+      .rating-grid{
+        gap:5px;
+      }
+
+      .rating-item span{
+        min-height:46px;
+      }
+
+    }
+
+    @media (max-width:390px){
+
+      .brand-name{
+        max-width:125px;
+        font-size:10px;
+      }
+
+      .pill-note{
+        font-size:7.5px;
+      }
+
+      .basic-pair{
+        grid-template-columns:1fr;
+      }
+
+      .checks{
+        grid-template-columns:1fr;
+      }
+
+      .check-item{
+        min-height:49px;
+      }
+
+    }
+
+    @media (prefers-reduced-motion:reduce){
+
+      .btn-primary:before{
+        animation:none;
+      }
+
+      *,
+      *:before,
+      *:after{
+        scroll-behavior:auto !important;
+        transition:none !important;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+<div class="page">
+
+
+  <!-- ==================================================
+       HEADER
+  ================================================== -->
+
+  <header>
+
+    <div class="header-inner">
+
+      <div class="brand">
+
+        <div class="brand-mark">
+          FOCUS
+        </div>
+
+        <div>
+
+          <div class="brand-name">
+            FOCUS
+          </div>
+
+          <span class="brand-license">
+            NEW MEMBER SURVEY
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="pill-note">
+        新規メンバーの方へ
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <main class="container">
+
+
+    <!-- ==================================================
+         HERO
+    ================================================== -->
+
+    <section
+      class="hero"
+      id="heroSection"
+    >
+
+      <div class="hero-head">
+
+        <span class="meta">
+          WELCOME TO FOCUS
+        </span>
+
+        <h1>FOCUSへようこそ。
+今のあなたを教えてください。</h1>
+
+        <p>これからのFOCUSでの体験をより良いものにするため、参加時点でのあなたの目標や現在の状況について教えてください。
+
+数ヶ月後に振り返ったとき、ここでの回答があなた自身の変化を知るきっかけにもなります。</p>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         THANK YOU
+    ================================================== -->
+
+    <div
+      class="thankyou-stage"
+      id="thankYouStage"
+    >
+
+      <div style="width:100%;">
+
+        <section class="thankyou">
+
+          <div
+            class="done-badge"
+            aria-hidden="true"
+          >
+
+            <svg
+              viewBox="0 0 24 24"
+              width="27"
+              height="27"
+            >
+
+              <path
+                fill="#ffffff"
+                d="M9 16.2l-3.5-3.5a1 1 0 0 1 1.4-1.4l2.8 2.8 7.3-7.3a1 1 0 1 1 1.4 1.4l-8 8a1 1 0 0 1-1.4 0z"
+              />
+
+            </svg>
+
+          </div>
+
+          <div class="done-kicker">
+            COMPLETE
+          </div>
+
+          <h2>
+            ありがとうございます。
+          </h2>
+
+          <p class="thankyou-secondary">
+            アンケートの回答を受け付けました。<br>
+            ここからFOCUSを存分に活用してください。
+          </p>
+
+        </section>
+
+      </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         FORM
+    ================================================== -->
+
+    <form
+      id="surveyForm"
+      novalidate
+    >
+
+
+      <!-- INTRO -->
+
+      <div class="section">
+
+        <div class="section-title">
+          はじめに
+        </div>
+
+        <div class="privacy-card">
+          回答内容は、FOCUSのサービス改善・コンテンツ改善・参加者傾向の分析等に利用させていただきます。
+        </div>
+
+      </div>
+
+
+      <!-- BASIC -->
+
+      <div class="section">
+
+        <div class="section-title">
+          基本情報
+
+          <span class="req">
+            必須
+          </span>
+        </div>
+
+
+        <div class="field">
+
+          <label
+            class="inline-label"
+            for="profileName"
+          >
+            Discordのプロフィール名
+          </label>
+
+          <input
+            id="profileName"
+            name="profileName"
+            type="text"
+            autocomplete="nickname"
+            placeholder="例：カネイ"
+            required
+          />
+
+        </div>
+
+
+        <div class="basic-pair">
+
+          <div class="field">
+
+            <label
+              class="inline-label"
+              for="sex"
+            >
+              性別
+            </label>
+
+            <select
+              id="sex"
+              name="sex"
+              required
+            >
+
+              <option value="">
+                選択してください
+              </option>
+
+              <option value="男性">
+                男性
+              </option>
+
+              <option value="女性">
+                女性
+              </option>
+
+              <option value="回答しない">
+                回答しない
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label
+              class="inline-label"
+              for="age"
+            >
+              年齢
+            </label>
+
+            <input
+              id="age"
+              name="age"
+              type="number"
+              inputmode="numeric"
+              step="1"
+              min="12"
+              max="99"
+              placeholder="例：28"
+              required
+            />
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="error"
+          data-error-for="basic"
+        >
+          プロフィール名・性別・年齢を入力してください。
+        </div>
+
+      </div>
+
+
+      <!-- CURRENT JOB -->
+
+      <div class="section">
+
+        <div class="section-title">
+          現在について
+
+          <span class="req">
+            必須
+          </span>
+        </div>
+
+
+        <div class="field">
+
+          <label
+            class="inline-label"
+            for="currentJob"
+          >
+            現在の職業・立場
+          </label>
+
+          <select
+            id="currentJob"
+            name="currentJob"
+            required
+          >
+
+            <option value="">
+              選択してください
+            </option>
+
+            <option value="会社員">
+              会社員
+            </option>
+
+            <option value="経営者・会社役員">
+              経営者・会社役員
+            </option>
+
+            <option value="個人事業主">
+              個人事業主
+            </option>
+
+            <option value="フリーランス">
+              フリーランス
+            </option>
+
+            <option value="公務員">
+              公務員
+            </option>
+
+            <option value="大学生・大学院生">
+              大学生・大学院生
+            </option>
+
+            <option value="専門学生">
+              専門学生
+            </option>
+
+            <option value="高校生">
+              高校生
+            </option>
+
+            <option value="アルバイト・パート">
+              アルバイト・パート
+            </option>
+
+            <option value="無職・求職中">
+              無職・求職中
+            </option>
+
+            <option value="その他">
+              その他
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div
+          class="field"
+          id="currentJobOtherWrap"
+          style="display:none;"
+        >
+
+          <label
+            class="inline-label"
+            for="currentJobOther"
+          >
+            現在の職業・立場を教えてください
+          </label>
+
+          <input
+            id="currentJobOther"
+            name="currentJobOther"
+            type="text"
+            placeholder="自由にご記入ください"
+          />
+
+        </div>
+
+
+        <div
+          class="error"
+          data-error-for="current"
+        >
+          現在の職業・立場を選択してください。
+        </div>
+
+      </div>
+
+
+      <!-- DISCOVERY -->
+
+      <div class="section">
+
+        <div class="section-title">
+          FOCUSを知ったきっかけ
+
+          <span class="req">
+            必須
+          </span>
+        </div>
+
+
+        <div class="checks">
+
+          <label class="check-item">
+            <input
+              type="radio"
+              name="discovery"
+              value="カネイのYouTube"
+            />
+            カネイのYouTube
+          </label>
+
+          <label class="check-item">
+            <input
+              type="radio"
+              name="discovery"
+              value="Instagram"
+            />
+            Instagram
+          </label>
+
+          <label class="check-item">
+            <input
+              type="radio"
+              name="discovery"
+              value="TikTok"
+            />
+            TikTok
+          </label>
+
+          <label class="check-item">
+            <input
+              type="radio"
+              name="discovery"
+              value="X"
+            />
+            X
+          </label>
+
+          <label class="check-item">
+            <input
+              type="radio"
+              name="discovery"
+              value="LINE"
+            />
+            LINE
+          </label>
+
+          <label class="check-item">
+            <input
+              type="radio"
+              name="discovery"
+              value="友人・知人"
+            />
+            友人・知人
+          </label>
+
+          <label class="check-item">
+
+            <input
+              type="radio"
+              id="discoveryOtherChk"
+              name="discovery"
+              value="その他"
+            />
+
+            その他
+
+          </label>
+
+        </div>
+
+
+        <div
+          class="field"
+          id="discoveryOtherWrap"
+          style="display:none;margin-top:12px;"
+        >
+
+          <input
+            id="discoveryOther"
+            name="discoveryOther"
+            type="text"
+            placeholder="どこで知ったか教えてください"
+          />
+
+        </div>
+
+
+        <div
+          class="error"
+          data-error-for="discovery"
+        >
+          FOCUSを知ったきっかけを選択してください。
+        </div>
+
+      </div>
+
+
+      <!-- STARTING POINT -->
+
+      <div class="section">
+
+        <div class="section-title">
+          今のあなたについて
+
+          <span class="req">
+            必須
+          </span>
+        </div>
+
+
+        <div class="important-card">
+          ここでは、FOCUSに参加した「今」の状態を教えてください。
+          数ヶ月後に振り返ったときのスタート地点になります。
+        </div>
+
+
+        <div class="field">
+
+          <label
+            class="inline-label"
+            for="currentSituation"
+          >
+            現在、どのような生活・状態ですか？
+          </label>
+
+          <div class="field-description">
+            仕事、勉強、習慣、生活リズム、考え方などについて自由に教えてください。
+          </div>
+
+          <textarea
+            id="currentSituation"
+            name="currentSituation"
+            class="textarea-large"
+            placeholder="例：仕事から帰るとYouTubeやSNSを見て一日が終わってしまいます。副業を始めたいと思っていますが、まだ何をすればいいか決められていません。"
+            required
+          ></textarea>
+
+        </div>
+
+
+        <div
+          class="error"
+          data-error-for="currentSituation"
+        >
+          現在の状態を入力してください。
+        </div>
+
+      </div>
+
+
+      <!-- PROBLEMS -->
+
+      <div class="section">
+
+        <div class="section-title">
+          現在の悩み・課題
+
+          <span class="req">
+            必須
+          </span>
+
+          <span class="limit">
+            3つまで
+          </span>
+        </div>
+
+
+        <div class="choice-note">
+          今、特に変えたい・解決したいものを選択してください。
+        </div>
+
+
+        <div class="checks">
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="行動できない" />
+            行動できない
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="習慣が続かない" />
+            習慣が続かない
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="自己規律がない" />
+            自己規律がない
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="集中力が続かない" />
+            集中力が続かない
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="SNS・スマホを見すぎる" />
+            SNS・スマホを見すぎる
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="自分に自信がない" />
+            自分に自信がない
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="将来に不安がある" />
+            将来に不安がある
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="収入を増やしたいが何をすればいいかわからない" />
+            収入を増やしたいが何をすればいいかわからない
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="副業・ビジネスがうまくいかない" />
+            副業・ビジネスがうまくいかない
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="稼ぐためのスキルがない" />
+            稼ぐためのスキルがない
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="英語力を伸ばしたい" />
+            英語力を伸ばしたい
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="身体を変えたい" />
+            身体を変えたい
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="外見を良くしたい" />
+            外見を良くしたい
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="恋愛・人間関係を良くしたい" />
+            恋愛・人間関係を良くしたい
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="problems" value="周囲に同じ目標を持つ人がいない" />
+            周囲に同じ目標を持つ人がいない
+          </label>
+
+          <label class="check-item">
+
+            <input
+              type="checkbox"
+              id="problemOtherChk"
+              name="problems"
+              value="その他"
+            />
+
+            その他
+
+          </label>
+
+        </div>
+
+
+        <div
+          class="field"
+          id="problemOtherWrap"
+          style="display:none;margin-top:12px;"
+        >
+
+          <textarea
+            id="problemOther"
+            name="problemOther"
+            placeholder="具体的に教えてください"
+          ></textarea>
+
+        </div>
+
+
+        <div
+          class="error"
+          data-error-for="problems"
+        >
+          1つ以上、3つ以内で選択してください。
+        </div>
+
+      </div>
+
+
+      <!-- JOIN REASONS -->
+
+      <div class="section">
+
+        <div class="section-title">
+          FOCUSに入った理由
+
+          <span class="req">
+            必須
+          </span>
+
+          <span class="limit">
+            3つまで
+          </span>
+        </div>
+
+
+        <div class="choice-note">
+          特に大きかった理由を選択してください。
+        </div>
+
+
+        <div class="checks">
+
+          <label class="check-item">
+            <input type="checkbox" name="joinReasons" value="自分を変えたかった" />
+            自分を変えたかった
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="joinReasons" value="今の生活を変えたかった" />
+            今の生活を変えたかった
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="joinReasons" value="自己規律を身につけたかった" />
+            自己規律を身につけたかった
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="joinReasons" value="行動・継続できるようになりたかった" />
+            行動・継続できるようになりたかった
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="joinReasons" value="収入を増やしたかった" />
+            収入を増やしたかった
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="joinReasons" value="副業・ビジネスのスキルを身につけたかった" />
+            副業・ビジネスのスキルを身につけたかった
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="joinReasons" value="英語を身につけたかった" />
+            英語を身につけたかった
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="joinReasons" value="身体・外見を変えたかった" />
+            身体・外見を変えたかった
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="joinReasons" value="自信をつけたかった" />
+            自信をつけたかった
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="joinReasons" value="同じ目標を持つ仲間が欲しかった" />
+            同じ目標を持つ仲間が欲しかった
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="joinReasons" value="カネイの考え方・生き方に共感した" />
+            カネイの考え方・生き方に共感した
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="joinReasons" value="200+のコンテンツに魅力を感じた" />
+            200+のコンテンツに魅力を感じた
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="joinReasons" value="LIVE SESSIONに魅力を感じた" />
+            LIVE SESSIONに魅力を感じた
+          </label>
+
+          <label class="check-item">
+            <input type="checkbox" name="joinReasons" value="価格に魅力を感じた" />
+            価格に魅力を感じた
+          </label>
+
+          <label class="check-item">
+
+            <input
+              type="checkbox"
+              id="joinReasonOtherChk"
+              name="joinReasons"
+              value="その他"
+            />
+
+            その他
+
+          </label>
+
+        </div>
+
+
+        <div
+          class="field"
+          id="joinReasonOtherWrap"
+          style="display:none;margin-top:12px;"
+        >
+
+          <textarea
+            id="joinReasonOther"
+            name="joinReasonOther"
+            placeholder="具体的に教えてください"
+          ></textarea>
+
+        </div>
+
+
+        <div
+          class="error"
+          data-error-for="joinReasons"
+        >
+          1つ以上、3つ以内で選択してください。
+        </div>
+
+      </div>
+
+
+      <!-- DECIDING FACTOR -->
+
+      <div class="section">
+
+        <div class="section-title">
+          入会の決め手
+
+          <span class="req">
+            必須
+          </span>
+        </div>
+
+
+        <div class="field">
+
+          <label
+            class="inline-label"
+            for="decidingFactor"
+          >
+            最終的にFOCUSへ入ろうと思った、一番の決め手は何でしたか？
+          </label>
+
+          <textarea
+            id="decidingFactor"
+            name="decidingFactor"
+            placeholder="例：色々な分野を一つの場所で学べることと、カネイさん自身の考え方に共感したことです。"
+            required
+          ></textarea>
+
+        </div>
+
+
+        <div
+          class="error"
+          data-error-for="decidingFactor"
+        >
+          入会の決め手を入力してください。
+        </div>
+
+      </div>
+
+
+      <!-- CONCERN -->
+
+      <div class="section">
+
+        <div class="section-title">
+          入会前の不安
+
+          <span class="limit">
+            任意
+          </span>
+        </div>
+
+
+        <div class="field">
+
+          <label
+            class="inline-label"
+            for="beforeConcern"
+          >
+            入会する前、不安だったこと・迷っていたことはありましたか？
+          </label>
+
+          <div class="field-description">
+            「自分に合うのか」「本当に使いこなせるのか」など、感じていたことをそのまま教えてください。
+          </div>
+
+          <textarea
+            id="beforeConcern"
+            name="beforeConcern"
+            placeholder="特になかった場合は空欄で大丈夫です。"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+
+      <!-- AREAS -->
+
+      <div class="section">
+
+        <div class="section-title">
+          FOCUSで特に変えたい・伸ばしたい分野
+
+          <span class="req">
+            必須
+          </span>
+
+          <span class="limit">
+            1つ
+          </span>
+        </div>
+
+
+        <div class="choice-note">
+          今の自分が最も強く「変えたい・伸ばしたい」と感じるものを1つ選択してください。
+        </div>
+
+
+        <div class="checks">
+
+          <label class="check-item">
+
+            <input
+              type="radio"
+              name="focusArea"
+              value="BUSINESS"
+            />
+
+            <span class="focus-area-copy">
+              <span class="focus-area-title">
+                ビジネス・副業
+              </span>
+              <span class="focus-area-sub">
+                収入・スキル・仕事
+              </span>
+            </span>
+
+          </label>
+
+
+          <label class="check-item">
+
+            <input
+              type="radio"
+              name="focusArea"
+              value="MINDSET"
+            />
+
+            <span class="focus-area-copy">
+              <span class="focus-area-title">
+                メンタル・考え方
+              </span>
+              <span class="focus-area-sub">
+                自信・思考・マインド
+              </span>
+            </span>
+
+          </label>
+
+
+          <label class="check-item">
+
+            <input
+              type="radio"
+              name="focusArea"
+              value="BODY"
+            />
+
+            <span class="focus-area-copy">
+              <span class="focus-area-title">
+                筋トレ・身体づくり
+              </span>
+              <span class="focus-area-sub">
+                筋トレ・食事・健康
+              </span>
+            </span>
+
+          </label>
+
+
+          <label class="check-item">
+
+            <input
+              type="radio"
+              name="focusArea"
+              value="APPEARANCE"
+            />
+
+            <span class="focus-area-copy">
+              <span class="focus-area-title">
+                外見・恋愛
+              </span>
+              <span class="focus-area-sub">
+                見た目・清潔感・恋愛
+              </span>
+            </span>
+
+          </label>
+
+
+          <label class="check-item">
+
+            <input
+              type="radio"
+              name="focusArea"
+              value="ENGLISH"
+            />
+
+            <span class="focus-area-copy">
+              <span class="focus-area-title">
+                英語
+              </span>
+              <span class="focus-area-sub">
+                英会話・英語学習
+              </span>
+            </span>
+
+          </label>
+
+
+          <label class="check-item">
+
+            <input
+              type="radio"
+              name="focusArea"
+              value="DISCIPLINE"
+            />
+
+            <span class="focus-area-copy">
+              <span class="focus-area-title">
+                自己規律・習慣
+              </span>
+              <span class="focus-area-sub">
+                継続・集中・生活習慣
+              </span>
+            </span>
+
+          </label>
+
+        </div>
+
+
+        <div
+          class="error"
+          data-error-for="focusArea"
+        >
+          最も変えたい・伸ばしたい分野を1つ選択してください。
+        </div>
+
+      </div>
+
+
+      <!-- CHANGE -->
+
+      <div class="section">
+
+        <div class="section-title">
+          一番変えたいこと
+
+          <span class="req">
+            必須
+          </span>
+        </div>
+
+
+        <div class="field">
+
+          <label
+            class="inline-label"
+            for="mainChange"
+          >
+            今の自分について、一番変えたいことは何ですか？
+          </label>
+
+          <textarea
+            id="mainChange"
+            name="mainChange"
+            class="textarea-large"
+            placeholder="例：やろうと思ったことを後回しにする癖をなくして、毎日決めたことをやり切れる自分になりたいです。"
+            required
+          ></textarea>
+
+        </div>
+
+
+        <div
+          class="error"
+          data-error-for="mainChange"
+        >
+          一番変えたいことを入力してください。
+        </div>
+
+      </div>
+
+
+      <!-- GOAL -->
+
+      <div class="section">
+
+        <div class="section-title">
+          3ヶ月後の目標
+
+          <span class="req">
+            必須
+          </span>
+        </div>
+
+
+        <div class="important-card">
+          FOCUSに参加して3ヶ月後、どうなっていたら
+          「FOCUSに入ってよかった」と思えるかを教えてください。
+        </div>
+
+
+        <div class="field">
+
+          <label
+            class="inline-label"
+            for="threeMonthGoal"
+          >
+            3ヶ月後、どんな自分になっていたいですか？
+          </label>
+
+          <div class="field-description">
+            仕事・収入・習慣・身体・英語・外見・人間関係など、分野は問いません。できるだけ具体的に教えてください。
+          </div>
+
+          <textarea
+            id="threeMonthGoal"
+            name="threeMonthGoal"
+            class="textarea-large"
+            placeholder="例：平日は毎朝6時に起きて1時間副業に取り組み、3ヶ月以内に初収益を出していたいです。"
+            required
+          ></textarea>
+
+        </div>
+
+
+        <div
+          class="error"
+          data-error-for="threeMonthGoal"
+        >
+          3ヶ月後の目標を入力してください。
+        </div>
+
+      </div>
+
+
+      <!-- NUMERIC GOAL -->
+
+      <div class="section">
+
+        <div class="section-title">
+          数字で表せる目標
+
+          <span class="limit">
+            任意
+          </span>
+        </div>
+
+
+        <div class="field">
+
+          <label
+            class="inline-label"
+            for="numericGoal"
+          >
+            具体的な数値目標があれば教えてください
+          </label>
+
+          <div class="field-description">
+            収入、売上、体重、筋トレ回数、起床時間、勉強時間、スクリーンタイム、英語スコアなど。
+          </div>
+
+          <textarea
+            id="numericGoal"
+            name="numericGoal"
+            placeholder="例：副業収入 月5万円 / 筋トレ週4回 / 毎朝6時起床 / TOEIC800点"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+
+      <!-- SELF RATING -->
+
+      <div class="section">
+
+        <div class="section-title">
+          現在の自己評価
+
+          <span class="req">
+            必須
+          </span>
+        </div>
+
+
+        <div class="important-card">
+          今の自分を基準に、直感で1〜5を選択してください。
+          後から変化を振り返るための基準として使用します。
+        </div>
+
+
+        <div class="rating-question">
+
+          <label class="inline-label">
+            行動力
+          </label>
+
+          <div class="rating-grid">
+
+            <label class="rating-item">
+              <input type="radio" name="ratingAction" value="1" />
+              <span>1</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingAction" value="2" />
+              <span>2</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingAction" value="3" />
+              <span>3</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingAction" value="4" />
+              <span>4</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingAction" value="5" />
+              <span>5</span>
+            </label>
+
+          </div>
+
+          <div class="rating-scale">
+            <span>低い</span>
+            <span>高い</span>
+          </div>
+
+        </div>
+
+
+        <div class="rating-question">
+
+          <label class="inline-label">
+            継続力
+          </label>
+
+          <div class="rating-grid">
+
+            <label class="rating-item">
+              <input type="radio" name="ratingConsistency" value="1" />
+              <span>1</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingConsistency" value="2" />
+              <span>2</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingConsistency" value="3" />
+              <span>3</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingConsistency" value="4" />
+              <span>4</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingConsistency" value="5" />
+              <span>5</span>
+            </label>
+
+          </div>
+
+          <div class="rating-scale">
+            <span>低い</span>
+            <span>高い</span>
+          </div>
+
+        </div>
+
+
+        <div class="rating-question">
+
+          <label class="inline-label">
+            自己規律
+          </label>
+
+          <div class="rating-grid">
+
+            <label class="rating-item">
+              <input type="radio" name="ratingDiscipline" value="1" />
+              <span>1</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingDiscipline" value="2" />
+              <span>2</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingDiscipline" value="3" />
+              <span>3</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingDiscipline" value="4" />
+              <span>4</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingDiscipline" value="5" />
+              <span>5</span>
+            </label>
+
+          </div>
+
+          <div class="rating-scale">
+            <span>低い</span>
+            <span>高い</span>
+          </div>
+
+        </div>
+
+
+        <div class="rating-question">
+
+          <label class="inline-label">
+            自信
+          </label>
+
+          <div class="rating-grid">
+
+            <label class="rating-item">
+              <input type="radio" name="ratingConfidence" value="1" />
+              <span>1</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingConfidence" value="2" />
+              <span>2</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingConfidence" value="3" />
+              <span>3</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingConfidence" value="4" />
+              <span>4</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingConfidence" value="5" />
+              <span>5</span>
+            </label>
+
+          </div>
+
+          <div class="rating-scale">
+            <span>低い</span>
+            <span>高い</span>
+          </div>
+
+        </div>
+
+
+        <div class="rating-question">
+
+          <label class="inline-label">
+            現在の生活への満足度
+          </label>
+
+          <div class="rating-grid">
+
+            <label class="rating-item">
+              <input type="radio" name="ratingLife" value="1" />
+              <span>1</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingLife" value="2" />
+              <span>2</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingLife" value="3" />
+              <span>3</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingLife" value="4" />
+              <span>4</span>
+            </label>
+
+            <label class="rating-item">
+              <input type="radio" name="ratingLife" value="5" />
+              <span>5</span>
+            </label>
+
+          </div>
+
+          <div class="rating-scale">
+            <span>不満</span>
+            <span>非常に満足</span>
+          </div>
+
+        </div>
+
+
+        <div
+          class="error"
+          data-error-for="ratings"
+        >
+          すべての項目を選択してください。
+        </div>
+
+      </div>
+
+
+      <!-- FINAL -->
+
+      <div class="section">
+
+        <div class="section-title">
+          最後に
+
+          <span class="limit">
+            任意
+          </span>
+        </div>
+
+
+        <div class="field">
+
+          <label
+            class="inline-label"
+            for="freeMessage"
+          >
+            FOCUSでやってみたいこと、カネイ・運営に伝えておきたいこと
+          </label>
+
+          <textarea
+            id="freeMessage"
+            name="freeMessage"
+            placeholder="自由にご記入ください。"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+
+      <!-- SUBMIT -->
+
+      <div class="actions">
+
+        <button
+          class="btn btn-primary"
+          type="submit"
+        >
+          アンケートを送信
+        </button>
+
+        <div
+          id="formMsg"
+          class="hint"
+        ></div>
+
+      </div>
+
+
+    </form>
+
+  </main>
+
+
+  <footer>
+    FOCUS
+  </footer>
+
+
+</div>
+
+
+<script>
+(() => {
+
+  /* ==================================================
+     CONFIG
+  ================================================== */
+
+  const CONFIG = {
+
+    GOOGLE_SCRIPT_URL:
+      "https://script.google.com/macros/s/AKfycbxG3crFSR2o87isTUSjvR_y2Y-vvmmFCF4a5fMhj_n8knp2ca2ETWxQSNnIwVGyNQSz/exec",
+
+    MAX_SELECT:3
+
+  };
+
+
+  const form =
+    document.getElementById("surveyForm");
+
+  const msg =
+    document.getElementById("formMsg");
+
+  const hero =
+    document.getElementById("heroSection");
+
+  const thankYouStage =
+    document.getElementById("thankYouStage");
+
+
+  /* ==================================================
+     HELPERS
+  ================================================== */
+
+  const showError = (name,on) => {
+
+    const el =
+      document.querySelector(
+        `[data-error-for="${name}"]`
+      );
+
+    if(el){
+      el.style.display =
+        on ? "block" : "none";
+    }
+
+  };
+
+
+  const getCheckedValues = name => {
+
+    return [
+      ...document.querySelectorAll(
+        `input[name="${name}"]:checked`
+      )
+    ].map(el => el.value);
+
+  };
+
+
+  const getRadioValue = name => {
+
+    const el =
+      document.querySelector(
+        `input[name="${name}"]:checked`
+      );
+
+    return el ? el.value : "";
+
+  };
+
+
+  /* ==================================================
+     OTHER FIELDS
+  ================================================== */
+
+  const bindSelectOther = (
+    selectId,
+    wrapId,
+    inputId
+  ) => {
+
+    const select =
+      document.getElementById(selectId);
+
+    const wrap =
+      document.getElementById(wrapId);
+
+    const input =
+      document.getElementById(inputId);
+
+    if(!select || !wrap || !input){
+      return;
+    }
+
+    const sync = () => {
+
+      const show =
+        select.value === "その他";
+
+      wrap.style.display =
+        show ? "grid" : "none";
+
+      if(!show){
+        input.value = "";
+      }
+
+    };
+
+    select.addEventListener(
+      "change",
+      sync
+    );
+
+    sync();
+
+  };
+
+
+  const bindCheckboxOther = (
+    checkboxId,
+    wrapId,
+    inputId
+  ) => {
+
+    const checkbox =
+      document.getElementById(
+        checkboxId
+      );
+
+    const wrap =
+      document.getElementById(
+        wrapId
+      );
+
+    const input =
+      document.getElementById(
+        inputId
+      );
+
+    if(!checkbox || !wrap || !input){
+      return;
+    }
+
+    const sync = () => {
+
+      wrap.style.display =
+        checkbox.checked
+          ? "grid"
+          : "none";
+
+      if(!checkbox.checked){
+        input.value = "";
+      }
+
+    };
+
+    checkbox.addEventListener(
+      "change",
+      sync
+    );
+
+    sync();
+
+  };
+
+
+  const bindRadioOther = (
+    radioId,
+    radioName,
+    wrapId,
+    inputId
+  ) => {
+
+    const target =
+      document.getElementById(radioId);
+
+    const wrap =
+      document.getElementById(wrapId);
+
+    const input =
+      document.getElementById(inputId);
+
+    if(!target || !wrap || !input){
+      return;
+    }
+
+    const radios = [
+      ...document.querySelectorAll(
+        `input[name="${radioName}"]`
+      )
+    ];
+
+
+    const sync = () => {
+
+      wrap.style.display =
+        target.checked
+          ? "grid"
+          : "none";
+
+      if(!target.checked){
+        input.value = "";
+      }
+
+    };
+
+
+    radios.forEach(radio => {
+
+      radio.addEventListener(
+        "change",
+        sync
+      );
+
+    });
+
+    sync();
+
+  };
+
+
+  bindSelectOther(
+    "currentJob",
+    "currentJobOtherWrap",
+    "currentJobOther"
+  );
+
+
+  bindRadioOther(
+    "discoveryOtherChk",
+    "discovery",
+    "discoveryOtherWrap",
+    "discoveryOther"
+  );
+
+
+  bindCheckboxOther(
+    "problemOtherChk",
+    "problemOtherWrap",
+    "problemOther"
+  );
+
+
+  bindCheckboxOther(
+    "joinReasonOtherChk",
+    "joinReasonOtherWrap",
+    "joinReasonOther"
+  );
+
+
+  /* ==================================================
+     MAX SELECT
+  ================================================== */
+
+  const bindLimit = name => {
+
+    const items = [
+      ...document.querySelectorAll(
+        `input[name="${name}"]`
+      )
+    ];
+
+    items.forEach(el => {
+
+      el.addEventListener(
+        "change",
+        () => {
+
+          const checked =
+            items.filter(
+              item => item.checked
+            );
+
+          if(
+            checked.length >
+            CONFIG.MAX_SELECT
+          ){
+
+            el.checked = false;
+
+            alert(
+              "選択は3つまでです。"
+            );
+
+          }
+
+        }
+      );
+
+    });
+
+  };
+
+
+  bindLimit("problems");
+  bindLimit("joinReasons");
+
+
+  /* ==================================================
+     VALIDATION
+  ================================================== */
+
+  const validateAll = () => {
+
+    let ok = true;
+
+
+    [
+      "basic",
+      "current",
+      "discovery",
+      "currentSituation",
+      "problems",
+      "joinReasons",
+      "decidingFactor",
+      "focusArea",
+      "mainChange",
+      "threeMonthGoal",
+      "ratings"
+    ].forEach(
+      key =>
+        showError(key,false)
+    );
+
+
+    if(
+      !form.profileName.value.trim() ||
+      !form.sex.value ||
+      !form.age.value
+    ){
+
+      showError(
+        "basic",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    if(
+      !form.currentJob.value
+    ){
+
+      showError(
+        "current",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    if(
+      form.currentJob.value ===
+      "その他" &&
+      !form.currentJobOther.value.trim()
+    ){
+
+      showError(
+        "current",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    if(
+      !getRadioValue("discovery")
+    ){
+
+      showError(
+        "discovery",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    if(
+      document
+        .getElementById(
+          "discoveryOtherChk"
+        )
+        .checked &&
+      !form
+        .discoveryOther
+        .value
+        .trim()
+    ){
+
+      showError(
+        "discovery",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    if(
+      !form
+        .currentSituation
+        .value
+        .trim()
+    ){
+
+      showError(
+        "currentSituation",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    const problems =
+      getCheckedValues("problems");
+
+
+    if(
+      problems.length < 1 ||
+      problems.length >
+        CONFIG.MAX_SELECT
+    ){
+
+      showError(
+        "problems",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    if(
+      document
+        .getElementById(
+          "problemOtherChk"
+        )
+        .checked &&
+      !form
+        .problemOther
+        .value
+        .trim()
+    ){
+
+      showError(
+        "problems",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    const joinReasons =
+      getCheckedValues(
+        "joinReasons"
+      );
+
+
+    if(
+      joinReasons.length < 1 ||
+      joinReasons.length >
+        CONFIG.MAX_SELECT
+    ){
+
+      showError(
+        "joinReasons",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    if(
+      document
+        .getElementById(
+          "joinReasonOtherChk"
+        )
+        .checked &&
+      !form
+        .joinReasonOther
+        .value
+        .trim()
+    ){
+
+      showError(
+        "joinReasons",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    if(
+      !form
+        .decidingFactor
+        .value
+        .trim()
+    ){
+
+      showError(
+        "decidingFactor",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    if(
+      !getRadioValue(
+        "focusArea"
+      )
+    ){
+
+      showError(
+        "focusArea",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    if(
+      !form
+        .mainChange
+        .value
+        .trim()
+    ){
+
+      showError(
+        "mainChange",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    if(
+      !form
+        .threeMonthGoal
+        .value
+        .trim()
+    ){
+
+      showError(
+        "threeMonthGoal",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    const ratingNames = [
+      "ratingAction",
+      "ratingConsistency",
+      "ratingDiscipline",
+      "ratingConfidence",
+      "ratingLife"
+    ];
+
+
+    const allRatingsAnswered =
+      ratingNames.every(
+        name =>
+          !!getRadioValue(name)
+      );
+
+
+    if(!allRatingsAnswered){
+
+      showError(
+        "ratings",
+        true
+      );
+
+      ok = false;
+
+    }
+
+
+    return ok;
+
+  };
+
+
+  /* ==================================================
+     MERGE OTHER
+  ================================================== */
+
+  const mergeOther = (
+    values,
+    checkboxId,
+    textId
+  ) => {
+
+    const checkbox =
+      document.getElementById(
+        checkboxId
+      );
+
+    const text =
+      document.getElementById(
+        textId
+      );
+
+
+    let result =
+      values.filter(
+        value =>
+          value !== "その他"
+      );
+
+
+    if(
+      checkbox &&
+      checkbox.checked &&
+      text &&
+      text.value.trim()
+    ){
+
+      result.push(
+        `その他：${text.value.trim()}`
+      );
+
+    }
+
+
+    return result.join(" / ");
+
+  };
+
+
+  /* ==================================================
+     BUILD DATA
+  ================================================== */
+
+  const buildTemplateParams = () => {
+
+    const problems =
+      getCheckedValues(
+        "problems"
+      );
+
+    const joinReasons =
+      getCheckedValues(
+        "joinReasons"
+      );
+
+
+    const currentJob =
+      form.currentJob.value ===
+      "その他"
+        ?
+        `その他：${form.currentJobOther.value.trim()}`
+        :
+        form.currentJob.value;
+
+
+    const discovery =
+      getRadioValue(
+        "discovery"
+      ) === "その他"
+        ?
+        `その他：${form.discoveryOther.value.trim()}`
+        :
+        getRadioValue(
+          "discovery"
+        );
+
+
+    return {
+
+      form_type:
+        "FOCUS新規参加者アンケート",
+
+      profile_name:
+        form.profileName.value.trim(),
+
+      sex:
+        form.sex.value,
+
+      age:
+        form.age.value,
+
+      current_job:
+        currentJob,
+
+      discovery:
+        discovery,
+
+      current_situation:
+        form.currentSituation.value.trim(),
+
+      current_problems:
+        mergeOther(
+          problems,
+          "problemOtherChk",
+          "problemOther"
+        ),
+
+      join_reasons:
+        mergeOther(
+          joinReasons,
+          "joinReasonOtherChk",
+          "joinReasonOther"
+        ),
+
+      deciding_factor:
+        form.decidingFactor.value.trim(),
+
+      before_concern:
+        form.beforeConcern.value.trim(),
+
+      focus_area:
+        getRadioValue(
+          "focusArea"
+        ),
+
+      main_change:
+        form.mainChange.value.trim(),
+
+      three_month_goal:
+        form.threeMonthGoal.value.trim(),
+
+      numeric_goal:
+        form.numericGoal.value.trim(),
+
+      rating_action:
+        getRadioValue(
+          "ratingAction"
+        ),
+
+      rating_consistency:
+        getRadioValue(
+          "ratingConsistency"
+        ),
+
+      rating_discipline:
+        getRadioValue(
+          "ratingDiscipline"
+        ),
+
+      rating_confidence:
+        getRadioValue(
+          "ratingConfidence"
+        ),
+
+      rating_life:
+        getRadioValue(
+          "ratingLife"
+        ),
+
+      free_message:
+        form.freeMessage.value.trim(),
+
+      submitted_at:
+        new Date()
+          .toLocaleString(
+            "ja-JP"
+          )
+
+    };
+
+  };
+
+
+  /* ==================================================
+     GOOGLE SHEETS
+  ================================================== */
+
+  const saveToGoogleSheets =
+    async params => {
+
+      if(
+        !CONFIG.GOOGLE_SCRIPT_URL ||
+        !CONFIG.GOOGLE_SCRIPT_URL.includes(
+          "script.google.com/macros/s/"
+        )
+      ){
+
+        throw new Error(
+          "Google Apps Script URLが設定されていません。"
+        );
+
+      }
+
+
+      const body =
+        new URLSearchParams();
+
+
+      Object.entries(params)
+        .forEach(
+          ([key,value]) => {
+
+            body.append(
+              key,
+              value == null
+                ? ""
+                : String(value)
+            );
+
+          }
+        );
+
+
+      await fetch(
+        CONFIG.GOOGLE_SCRIPT_URL,
+        {
+
+          method:"POST",
+
+          mode:"no-cors",
+
+          headers:{
+            "Content-Type":
+              "application/x-www-form-urlencoded;charset=UTF-8"
+          },
+
+          body
+
+        }
+      );
+
+  };
+
+
+  /* ==================================================
+     THANK YOU
+  ================================================== */
+
+  const showThankYouView = () => {
+
+    hero.style.display =
+      "none";
+
+    form.style.display =
+      "none";
+
+    thankYouStage.style.display =
+      "flex";
+
+
+    window.scrollTo({
+      top:0,
+      behavior:"auto"
+    });
+
+  };
+
+
+  /* ==================================================
+     SUBMIT
+  ================================================== */
+
+  form.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+      msg.textContent = "";
+
+
+      if(!validateAll()){
+
+        const firstError =
+          document.querySelector(
+            '.error[style*="block"]'
+          );
+
+
+        if(firstError){
+
+          firstError.scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+          });
+
+        }
+
+        return;
+
+      }
+
+
+      const submitBtn =
+        form.querySelector(
+          'button[type="submit"]'
+        );
+
+
+      submitBtn.disabled = true;
+
+
+      msg.textContent =
+        "送信中です…";
+
+
+      try{
+
+        const templateParams =
+          buildTemplateParams();
+
+
+        await saveToGoogleSheets(
+          templateParams
+        );
+
+
+        msg.textContent =
+          "送信が完了しました。";
+
+
+        showThankYouView();
+
+
+      }catch(error){
+
+        console.error(error);
+
+
+        msg.textContent =
+          "送信に失敗しました。通信環境をご確認のうえ、もう一度お試しください。";
+
+
+        alert(
+          "送信に失敗しました。もう一度送信ボタンを押してください。"
+        );
+
+
+      }finally{
+
+        submitBtn.disabled =
+          false;
+
+      }
+
+    }
+  );
+
+
+  /* ==================================================
+     CLEAR ERRORS
+  ================================================== */
+
+  const clearOnInput = (
+    selector,
+    errorName
+  ) => {
+
+    document
+      .querySelectorAll(selector)
+      .forEach(el => {
+
+        const eventName =
+          el.type === "checkbox" ||
+          el.type === "radio" ||
+          el.tagName === "SELECT"
+            ? "change"
+            : "input";
+
+
+        el.addEventListener(
+          eventName,
+          () =>
+            showError(
+              errorName,
+              false
+            )
+        );
+
+      });
+
+  };
+
+
+  clearOnInput(
+    "#profileName,#sex,#age",
+    "basic"
+  );
+
+
+  clearOnInput(
+    "#currentJob,#currentJobOther",
+    "current"
+  );
+
+
+  clearOnInput(
+    'input[name="discovery"],#discoveryOther',
+    "discovery"
+  );
+
+
+  clearOnInput(
+    "#currentSituation",
+    "currentSituation"
+  );
+
+
+  clearOnInput(
+    'input[name="problems"],#problemOther',
+    "problems"
+  );
+
+
+  clearOnInput(
+    'input[name="joinReasons"],#joinReasonOther',
+    "joinReasons"
+  );
+
+
+  clearOnInput(
+    "#decidingFactor",
+    "decidingFactor"
+  );
+
+
+  clearOnInput(
+    'input[name="focusArea"]',
+    "focusArea"
+  );
+
+
+  clearOnInput(
+    "#mainChange",
+    "mainChange"
+  );
+
+
+  clearOnInput(
+    "#threeMonthGoal",
+    "threeMonthGoal"
+  );
+
+
+  clearOnInput(
+    'input[name="ratingAction"],input[name="ratingConsistency"],input[name="ratingDiscipline"],input[name="ratingConfidence"],input[name="ratingLife"]',
+    "ratings"
+  );
+
+
+})();
+</script>
+
+
+</body>
+</html>
