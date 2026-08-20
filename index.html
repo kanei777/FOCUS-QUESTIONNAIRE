@@ -4000,14 +4000,7 @@
        * 数十秒かかることがあるため、完了画面をブロックしない。
        * POST自体の通信失敗は上のfetchで検知し、保存確認はバックグラウンドで行う。
        */
-      confirmGoogleSheetsSave_(
-        params.submission_id
-      ).catch(error => {
-        console.warn(
-          "バックグラウンドの保存確認に失敗しました。",
-          error
-        );
-      });
+      // 保存確認の追加アクセスは行わない。回答POSTは1回だけ送信する。
 
   };
 
