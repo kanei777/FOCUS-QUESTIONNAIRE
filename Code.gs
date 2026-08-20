@@ -83,7 +83,8 @@ function setup() {
   lock.waitLock(30000);
   try {
     const ss = openSpreadsheet_();
-    getOrCreateResponseSheet_(ss);
+    // 既存の回答シートは重い全体再書式・フィルター再作成を行わない。
+    getOrCreateResponseSheet_(ss, false);
     updateSummary_(ss, true);
     SpreadsheetApp.flush();
     return 'セットアップ完了：回答データは保持されています。';
@@ -143,6 +144,7 @@ function formatNewResponseRow_(sheet, row) {
 }
 
 function updateSummary_(ss, rebuildLayout) {
+  const formatLayout = rebuildLayout !== false;
   const responseSheet = getOrCreateResponseSheet_(ss, false);
   let sheet = ss.getSheetByName(CONFIG.SUMMARY_SHEET);
   if (!sheet) {
@@ -161,43 +163,51 @@ function updateSummary_(ss, rebuildLayout) {
 
   const total = Math.max(responseSheet.getLastRow() - 1, 0);
   const values = total ? responseSheet.getRange(2, 1, total, HEADERS.length).getValues() : [];
-  sheet.getRange('A1:H1').merge().setValue('FOCUS 新規参加者アンケート｜集計ダッシュボード')
-    .setFontSize(18).setFontWeight('bold').setFontColor('#ffffff').setBackground('#312e81')
-    .setHorizontalAlignment('left').setVerticalAlignment('middle');
-  sheet.setRowHeight(1, 44);
+  const titleRange = sheet.getRange('A1:H1');
+  if (formatLayout) {
+    titleRange.merge().setValue('FOCUS 新規参加者アンケート｜集計ダッシュボード')
+      .setFontSize(18).setFontWeight('bold').setFontColor('#ffffff').setBackground('#312e81')
+      .setHorizontalAlignment('left').setVerticalAlignment('middle');
+    sheet.setRowHeight(1, 44);
+  } else {
+    sheet.getRange('A1').setValue('FOCUS 新規参加者アンケート｜集計ダッシュボード');
+  }
   sheet.getRange('A3:B3').setValues([['総回答数', total]]);
   sheet.getRange('D3:E3').setValues([['平均年齢', average_(values.map(r => Number(r[3])).filter(Number.isFinite))]]);
-  styleKpi_(sheet.getRange('A3:B3'));
-  styleKpi_(sheet.getRange('D3:E3'));
-  sheet.getRange('E3').setNumberFormat('0.0');
+  if (formatLayout) {
+    styleKpi_(sheet.getRange('A3:B3'));
+    styleKpi_(sheet.getRange('D3:E3'));
+    sheet.getRange('E3').setNumberFormat('0.0');
+  }
 
   const ratings = [['行動力', 15], ['継続力', 16], ['自己規律', 17], ['自信', 18], ['生活への満足度', 19]];
   const ratingData = ratings.map(([label, index]) => [label, average_(values.map(r => Number(r[index])).filter(n => Number.isFinite(n) && n >= 1 && n <= 5))]);
-  writeTable_(sheet, 6, 1, '現在の自己評価（1〜5点）', ['項目', '平均'], ratingData, 2);
-  sheet.getRange(8, 2, ratingData.length, 1).setNumberFormat('0.00');
+  writeTable_(sheet, 6, 1, '現在の自己評価（1〜5点）', ['項目', '平均'], ratingData, 2, formatLayout);
+  if (formatLayout) sheet.getRange(8, 2, ratingData.length, 1).setNumberFormat('0.00');
 
   let row = 15;
   const sections = [];
-  row = writeCountSection_(sheet, values, 2, '性別', row, total, false, null, sections);
+  row = writeCountSection_(sheet, values, 2, '性別', row, total, false, null, sections, formatLayout);
   row += 2;
-  row = writeCountSection_(sheet, values, 4, '職業・立場', row, total, false, null, sections);
+  row = writeCountSection_(sheet, values, 4, '職業・立場', row, total, false, null, sections, formatLayout);
   row += 2;
-  row = writeCountSection_(sheet, values, 5, 'FOCUSを知ったきっかけ', row, total, false, null, sections);
+  row = writeCountSection_(sheet, values, 5, 'FOCUSを知ったきっかけ', row, total, false, null, sections, formatLayout);
   row += 2;
-  row = writeCountSection_(sheet, values, 7, '現在の悩み・課題', row, total, true, null, sections);
+  row = writeCountSection_(sheet, values, 7, '現在の悩み・課題', row, total, true, null, sections, formatLayout);
   row += 2;
-  row = writeCountSection_(sheet, values, 8, 'FOCUSに入った理由', row, total, true, null, sections);
+  row = writeCountSection_(sheet, values, 8, 'FOCUSに入った理由', row, total, true, null, sections, formatLayout);
   row += 2;
   writeCountSection_(sheet, values, 11, '特に変えたい・伸ばしたい分野', row, total, false,
-    ['BUSINESS', 'MINDSET', 'BODY', 'APPEARANCE', 'ENGLISH', 'DISCIPLINE'], sections);
+    ['BUSINESS', 'MINDSET', 'BODY', 'APPEARANCE', 'ENGLISH', 'DISCIPLINE'], sections, formatLayout);
 
-  sheet.setFrozenRows(1);
-  [300, 100, 105, 30, 300, 100, 105, 30].forEach((w, i) => sheet.setColumnWidth(i + 1, w));
-  sheet.getDataRange().setVerticalAlignment('middle');
-  if (rebuildLayout !== false) addCharts_(sheet, sections, ratingData.length);
+  if (formatLayout) {
+    sheet.setFrozenRows(1);
+    [300, 100, 105, 30, 300, 100, 105, 30].forEach((w, i) => sheet.setColumnWidth(i + 1, w));
+    sheet.getRange('A1:E120').setVerticalAlignment('middle');
+  }
 }
 
-function writeCountSection_(sheet, values, columnIndex, title, startRow, total, isMulti, fixedOrder, sections) {
+function writeCountSection_(sheet, values, columnIndex, title, startRow, total, isMulti, fixedOrder, sections, formatLayout) {
   const counts = {};
   (fixedOrder || []).forEach(label => counts[label] = 0);
   values.forEach(row => {
@@ -211,22 +221,30 @@ function writeCountSection_(sheet, values, columnIndex, title, startRow, total, 
   if (!fixedOrder) entries.sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'ja'));
   const rows = entries.map(([label, count]) => [label, count, total ? count / total : 0]);
   writeTable_(sheet, startRow, 1, title,
-    ['項目', isMulti ? '選択人数' : '人数', isMulti ? '選択率' : '割合'], rows, 3);
-  if (rows.length) sheet.getRange(startRow + 2, 3, rows.length, 1).setNumberFormat('0.0%');
+    ['項目', isMulti ? '選択人数' : '人数', isMulti ? '選択率' : '割合'], rows, 3, formatLayout);
+  if (formatLayout && rows.length) sheet.getRange(startRow + 2, 3, rows.length, 1).setNumberFormat('0.0%');
   sections.push({ title: title, headerRow: startRow + 1, dataRows: rows.length });
   return startRow + 2 + Math.max(rows.length, 1);
 }
 
-function writeTable_(sheet, row, col, title, headers, rows, width) {
-  sheet.getRange(row, col, 1, width).merge().setValue(title).setFontWeight('bold')
-    .setFontColor('#ffffff').setBackground('#4f46e5');
-  sheet.getRange(row + 1, col, 1, headers.length).setValues([headers]).setFontWeight('bold')
-    .setBackground('#e0e7ff').setFontColor('#1e1b4b');
-  if (rows.length) {
-    sheet.getRange(row + 2, col, rows.length, headers.length).setValues(rows)
-      .setBorder(true, true, true, true, true, true, '#cbd5e1', SpreadsheetApp.BorderStyle.SOLID);
+function writeTable_(sheet, row, col, title, headers, rows, width, formatLayout) {
+  const titleRange = sheet.getRange(row, col, 1, width);
+  const headerRange = sheet.getRange(row + 1, col, 1, headers.length);
+  if (formatLayout) {
+    titleRange.merge().setValue(title).setFontWeight('bold')
+      .setFontColor('#ffffff').setBackground('#4f46e5');
+    headerRange.setValues([headers]).setFontWeight('bold')
+      .setBackground('#e0e7ff').setFontColor('#1e1b4b');
   } else {
-    sheet.getRange(row + 2, col).setValue('回答なし').setFontColor('#64748b');
+    sheet.getRange(row, col).setValue(title);
+    headerRange.setValues([headers]);
+  }
+  if (rows.length) {
+    const dataRange = sheet.getRange(row + 2, col, rows.length, headers.length).setValues(rows);
+    if (formatLayout) dataRange.setBorder(true, true, true, true, true, true, '#cbd5e1', SpreadsheetApp.BorderStyle.SOLID);
+  } else {
+    const emptyCell = sheet.getRange(row + 2, col).setValue('回答なし');
+    if (formatLayout) emptyCell.setFontColor('#64748b');
   }
 }
 
