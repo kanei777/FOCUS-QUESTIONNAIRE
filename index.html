@@ -3969,9 +3969,19 @@
         }
       );
 
-      await confirmGoogleSheetsSave_(
+      /*
+       * GitHub Pages → GAS のJSONP保存確認は、GASのコールドスタート時に
+       * 数十秒かかることがあるため、完了画面をブロックしない。
+       * POST自体の通信失敗は上のfetchで検知し、保存確認はバックグラウンドで行う。
+       */
+      confirmGoogleSheetsSave_(
         params.submission_id
-      );
+      ).catch(error => {
+        console.warn(
+          "バックグラウンドの保存確認に失敗しました。",
+          error
+        );
+      });
 
   };
 
@@ -3979,7 +3989,7 @@
   const confirmGoogleSheetsSave_ =
     submissionId => {
 
-      const attempts = 8;
+      const attempts = 3;
 
       return new Promise((resolve,reject) => {
 
@@ -4005,7 +4015,7 @@
             count < attempts
               ? setTimeout(check, 800)
               : reject(new Error("保存確認がタイムアウトしました。"));
-          }, 5000);
+          }, 3000);
 
           window[callbackName] = result => {
             clearTimeout(timer);
