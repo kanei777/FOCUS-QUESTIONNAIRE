@@ -3951,7 +3951,7 @@
         );
 
 
-      await fetch(
+      const request = fetch(
         CONFIG.GOOGLE_SCRIPT_URL,
         {
 
@@ -3964,10 +3964,37 @@
               "application/x-www-form-urlencoded;charset=UTF-8"
           },
 
+          keepalive:true,
+
           body
 
         }
       );
+
+      /*
+       * GASは回答保存後に集計・グラフ更新も行うため、レスポンス完了を待つと
+       * 回答量に関係なく数十秒かかることがある。通信が即時失敗していない
+       * ことだけを確認し、GAS処理はバックグラウンドで継続させる。
+       */
+      const accepted = await Promise.race([
+        request.then(() => true).catch(() => false),
+        new Promise(resolve =>
+          setTimeout(() => resolve(true), 1000)
+        )
+      ]);
+
+      if(!accepted){
+        throw new Error(
+          "送信要求を開始できませんでした。"
+        );
+      }
+
+      request.catch(error => {
+        console.warn(
+          "バックグラウンド送信でエラーが発生しました。",
+          error
+        );
+      });
 
       /*
        * GitHub Pages → GAS のJSONP保存確認は、GASのコールドスタート時に
@@ -4126,7 +4153,7 @@
 
 
       msg.textContent =
-        "送信中です…";
+        "送信中です… 数十秒かかる場合があります。";
 
 
       try{
