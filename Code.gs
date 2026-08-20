@@ -93,6 +93,39 @@ function setup() {
   }
 }
 
+/** モバイル表示不調の診断用。シート内容は変更しません。 */
+function auditSpreadsheet() {
+  const ss = openSpreadsheet_();
+  const result = ss.getSheets().map(sheet => ({
+    name: sheet.getName(),
+    sheetId: sheet.getSheetId(),
+    maxRows: sheet.getMaxRows(),
+    maxColumns: sheet.getMaxColumns(),
+    lastRow: sheet.getLastRow(),
+    lastColumn: sheet.getLastColumn(),
+    charts: sheet.getCharts().length,
+    drawings: sheet.getDrawings().length,
+    mergedRanges: sheet.getDataRange().getMergedRanges().length,
+    conditionalFormatRules: sheet.getConditionalFormatRules().length,
+    hasFilter: Boolean(sheet.getFilter()),
+    frozenRows: sheet.getFrozenRows(),
+    frozenColumns: sheet.getFrozenColumns()
+  }));
+  console.log(JSON.stringify(result));
+  return result;
+}
+
+/** 重複した条件付き書式だけを除去し、回答データと通常書式は保持します。 */
+function repairSpreadsheetPerformance() {
+  const ss = openSpreadsheet_();
+  const responseSheet = ss.getSheetByName(CONFIG.RESPONSE_SHEET);
+  const summarySheet = ss.getSheetByName(CONFIG.SUMMARY_SHEET);
+  if (responseSheet) responseSheet.setConditionalFormatRules([]);
+  if (summarySheet) summarySheet.setConditionalFormatRules([]);
+  SpreadsheetApp.flush();
+  return auditSpreadsheet();
+}
+
 function openSpreadsheet_() {
   return SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
 }
@@ -126,14 +159,8 @@ function formatResponseSheet_(sheet) {
   const widths = [145, 180, 85, 65, 170, 180, 260, 260, 260, 260, 260, 170, 260, 260, 180, 70, 70, 70, 70, 110, 280];
   widths.forEach((width, i) => sheet.setColumnWidth(i + 1, width));
   sheet.hideColumns(VISIBLE_COLUMN_COUNT + 1, HEADERS.length - VISIBLE_COLUMN_COUNT);
-  const rules = sheet.getConditionalFormatRules().filter(rule => {
-    const ranges = rule.getRanges();
-    return !ranges.some(range => range.getA1Notation() === 'A2:U');
-  });
-  rules.push(SpreadsheetApp.newConditionalFormatRule()
-    .whenFormulaSatisfied('=ISEVEN(ROW())').setBackground('#f8fafc')
-    .setRanges([sheet.getRange('A2:U')]).build());
-  sheet.setConditionalFormatRules(rules);
+  // 条件付き書式はモバイル表示を重くするため使用しない。
+  sheet.setConditionalFormatRules([]);
 }
 
 function formatNewResponseRow_(sheet, row) {
@@ -204,6 +231,7 @@ function updateSummary_(ss, rebuildLayout) {
     sheet.setFrozenRows(1);
     [300, 100, 105, 30, 300, 100, 105, 30].forEach((w, i) => sheet.setColumnWidth(i + 1, w));
     sheet.getRange('A1:E120').setVerticalAlignment('middle');
+    addCharts_(sheet, sections, ratingData.length);
   }
 }
 
