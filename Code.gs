@@ -33,7 +33,7 @@ function doPost(e) {
     if (!submissionId) throw new Error('submission_id がありません。');
 
     const ss = openSpreadsheet_();
-    const sheet = getOrCreateResponseSheet_(ss);
+    const sheet = getOrCreateResponseSheet_(ss, false);
     const existingRow = findSubmissionRow_(sheet, submissionId);
     if (existingRow) return output_({ ok: true, duplicate: true, row: existingRow }, p.callback);
 
@@ -50,7 +50,7 @@ function doPost(e) {
     sheet.appendRow(row);
     const rowNumber = sheet.getLastRow();
     formatNewResponseRow_(sheet, rowNumber);
-    updateSummary_(ss);
+    updateSummary_(ss, false);
     SpreadsheetApp.flush();
     return output_({ ok: true, duplicate: false, row: rowNumber }, p.callback);
   } catch (error) {
@@ -68,7 +68,7 @@ function doGet(e) {
     const submissionId = clean_(p.submission_id);
     let saved = false;
     if (submissionId) {
-      const sheet = getOrCreateResponseSheet_(openSpreadsheet_());
+      const sheet = getOrCreateResponseSheet_(openSpreadsheet_(), false);
       saved = Boolean(findSubmissionRow_(sheet, submissionId));
     }
     return output_({ ok: true, service: 'FOCUS Survey API', saved: saved }, p.callback);
@@ -84,7 +84,7 @@ function setup() {
   try {
     const ss = openSpreadsheet_();
     getOrCreateResponseSheet_(ss);
-    updateSummary_(ss);
+    updateSummary_(ss, true);
     SpreadsheetApp.flush();
     return 'セットアップ完了：回答データは保持されています。';
   } finally {
@@ -96,14 +96,14 @@ function openSpreadsheet_() {
   return SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
 }
 
-function getOrCreateResponseSheet_(ss) {
+function getOrCreateResponseSheet_(ss, applyFormatting) {
   let sheet = ss.getSheetByName(CONFIG.RESPONSE_SHEET);
   if (!sheet) sheet = ss.insertSheet(CONFIG.RESPONSE_SHEET);
   if (sheet.getMaxColumns() < HEADERS.length) {
     sheet.insertColumnsAfter(sheet.getMaxColumns(), HEADERS.length - sheet.getMaxColumns());
   }
   sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
-  formatResponseSheet_(sheet);
+  if (applyFormatting !== false) formatResponseSheet_(sheet);
   return sheet;
 }
 
@@ -142,13 +142,22 @@ function formatNewResponseRow_(sheet, row) {
   sheet.getRange(row, 1, 1, VISIBLE_COLUMN_COUNT).setVerticalAlignment('top').setWrap(true);
 }
 
-function updateSummary_(ss) {
-  const responseSheet = getOrCreateResponseSheet_(ss);
+function updateSummary_(ss, rebuildLayout) {
+  const responseSheet = getOrCreateResponseSheet_(ss, false);
   let sheet = ss.getSheetByName(CONFIG.SUMMARY_SHEET);
-  if (!sheet) sheet = ss.insertSheet(CONFIG.SUMMARY_SHEET);
-  sheet.getCharts().forEach(chart => sheet.removeChart(chart));
-  sheet.clear();
-  sheet.setConditionalFormatRules([]);
+  if (!sheet) {
+    sheet = ss.insertSheet(CONFIG.SUMMARY_SHEET);
+    rebuildLayout = true;
+  }
+
+  if (rebuildLayout !== false) {
+    sheet.getCharts().forEach(chart => sheet.removeChart(chart));
+    sheet.clear();
+    sheet.setConditionalFormatRules([]);
+  } else {
+    // 回答ごとにシート全体・グラフを作り直さず、値の範囲だけ更新する。
+    sheet.getRange('A1:H120').clearContent();
+  }
 
   const total = Math.max(responseSheet.getLastRow() - 1, 0);
   const values = total ? responseSheet.getRange(2, 1, total, HEADERS.length).getValues() : [];
@@ -185,7 +194,7 @@ function updateSummary_(ss) {
   sheet.setFrozenRows(1);
   [300, 100, 105, 30, 300, 100, 105, 30].forEach((w, i) => sheet.setColumnWidth(i + 1, w));
   sheet.getDataRange().setVerticalAlignment('middle');
-  addCharts_(sheet, sections, ratingData.length);
+  if (rebuildLayout !== false) addCharts_(sheet, sections, ratingData.length);
 }
 
 function writeCountSection_(sheet, values, columnIndex, title, startRow, total, isMulti, fixedOrder, sections) {
