@@ -3132,6 +3132,8 @@
   const form =
     document.getElementById("surveyForm");
 
+  let isSubmitting = false;
+
   const msg =
     document.getElementById("formMsg");
 
@@ -3897,7 +3899,12 @@
         new Date()
           .toLocaleString(
             "ja-JP"
-          )
+          ),
+
+      submission_id:
+        (window.crypto && crypto.randomUUID)
+          ? crypto.randomUUID()
+          : `${Date.now()}-${Math.random().toString(36).slice(2)}`
 
     };
 
@@ -3962,7 +3969,76 @@
         }
       );
 
+      await confirmGoogleSheetsSave_(
+        params.submission_id
+      );
+
   };
+
+
+  const confirmGoogleSheetsSave_ =
+    submissionId => {
+
+      const attempts = 8;
+
+      return new Promise((resolve,reject) => {
+
+        let count = 0;
+
+        const check = () => {
+
+          count++;
+
+          const callbackName =
+            `focusSaveCheck_${Date.now()}_${count}`;
+
+          const script =
+            document.createElement("script");
+
+          const cleanup = () => {
+            delete window[callbackName];
+            script.remove();
+          };
+
+          const timer = setTimeout(() => {
+            cleanup();
+            count < attempts
+              ? setTimeout(check, 800)
+              : reject(new Error("保存確認がタイムアウトしました。"));
+          }, 5000);
+
+          window[callbackName] = result => {
+            clearTimeout(timer);
+            cleanup();
+            if(result && result.ok && result.saved){
+              resolve();
+            }else if(count < attempts){
+              setTimeout(check, 800);
+            }else{
+              reject(new Error("Google Sheetsへの保存を確認できませんでした。"));
+            }
+          };
+
+          script.onerror = () => {
+            clearTimeout(timer);
+            cleanup();
+            count < attempts
+              ? setTimeout(check, 800)
+              : reject(new Error("保存確認に失敗しました。"));
+          };
+
+          script.src =
+            `${CONFIG.GOOGLE_SCRIPT_URL}?submission_id=${encodeURIComponent(submissionId)}&callback=${encodeURIComponent(callbackName)}&_=${Date.now()}`;
+
+          document.head.appendChild(script);
+
+        };
+
+        check();
+
+      });
+
+    };
 
 
   /* ==================================================
@@ -3999,6 +4075,10 @@
 
       event.preventDefault();
 
+      if(isSubmitting){
+        return;
+      }
+
       msg.textContent = "";
 
 
@@ -4031,6 +4111,8 @@
 
 
       submitBtn.disabled = true;
+
+      isSubmitting = true;
 
 
       msg.textContent =
@@ -4071,8 +4153,10 @@
 
       }finally{
 
-        submitBtn.disabled =
-          false;
+        if(thankYouStage.style.display !== "flex"){
+          submitBtn.disabled = false;
+          isSubmitting = false;
+        }
 
       }
 
